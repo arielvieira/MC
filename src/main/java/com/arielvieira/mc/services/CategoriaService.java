@@ -8,7 +8,7 @@ import com.arielvieira.mc.repositories.CategoriaRepository;
 
 @Service
 public class CategoriaService {
-
+	
 	@Autowired
 	private CategoriaRepository repo;
 	

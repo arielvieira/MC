@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.arielvieira.mc.domain.Categoria;
 import com.arielvieira.mc.domain.Cidade;
+import com.arielvieira.mc.domain.Cliente;
+import com.arielvieira.mc.domain.Endereco;
 import com.arielvieira.mc.domain.Estado;
 import com.arielvieira.mc.domain.Produto;
+import com.arielvieira.mc.domain.enums.TipoCliente;
 import com.arielvieira.mc.repositories.CategoriaRepository;
 import com.arielvieira.mc.repositories.CidadeRepository;
 import com.arielvieira.mc.repositories.EstadoRepository;
@@ -63,5 +66,10 @@ public class McApplication implements CommandLineRunner{
 		
 		estadoRepository.save(Arrays.asList(est1, est2));
 		cidadeRepository.save(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com" , "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323"));
+		
 	}
+	
 }

@@ -1,6 +1,7 @@
 package com.arielvieira.mc;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.arielvieira.mc.domain.Cidade;
 import com.arielvieira.mc.domain.Cliente;
 import com.arielvieira.mc.domain.Endereco;
 import com.arielvieira.mc.domain.Estado;
+import com.arielvieira.mc.domain.ItemPedido;
 import com.arielvieira.mc.domain.Pagamento;
 import com.arielvieira.mc.domain.PagamentoComBoleto;
 import com.arielvieira.mc.domain.PagamentoComCartao;
@@ -25,6 +27,7 @@ import com.arielvieira.mc.repositories.CidadeRepository;
 import com.arielvieira.mc.repositories.ClienteRepository;
 import com.arielvieira.mc.repositories.EnderecoRepository;
 import com.arielvieira.mc.repositories.EstadoRepository;
+import com.arielvieira.mc.repositories.ItemPedidoRepository;
 import com.arielvieira.mc.repositories.PagamentoRepository;
 import com.arielvieira.mc.repositories.PedidoRepository;
 import com.arielvieira.mc.repositories.ProdutoRepository;
@@ -48,6 +51,10 @@ public class McApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+	
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(McApplication.class, args);
@@ -111,6 +118,17 @@ public class McApplication implements CommandLineRunner{
 		
 		pedidoRepository.save(Arrays.asList(ped1, ped2));
 		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
+		
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
 	}
 	
 }

@@ -29,6 +29,13 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable Integer id) {	
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
 		obj = service.insert(obj);

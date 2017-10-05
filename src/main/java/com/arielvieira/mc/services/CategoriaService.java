@@ -1,10 +1,12 @@
 package com.arielvieira.mc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.arielvieira.mc.domain.Categoria;
 import com.arielvieira.mc.repositories.CategoriaRepository;
+import com.arielvieira.mc.services.exceptions.DataIntegrityException;
 import com.arielvieira.mc.services.exceptions.ObjetNotFoundException;
 
 @Service
@@ -26,5 +28,14 @@ public class CategoriaService {
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return repo.save(obj);
+	}
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.delete(id);
+		}catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("nao é possivel excluir categoria com produtos");
+		}
+		
 	}
 }

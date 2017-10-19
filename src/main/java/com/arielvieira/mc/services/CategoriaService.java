@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.arielvieira.mc.domain.Categoria;
+import com.arielvieira.mc.dto.CategoriaDTO;
 import com.arielvieira.mc.repositories.CategoriaRepository;
 import com.arielvieira.mc.services.exceptions.DataIntegrityException;
 import com.arielvieira.mc.services.exceptions.ObjetNotFoundException;
@@ -59,5 +60,9 @@ public class CategoriaService {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 }

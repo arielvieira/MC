@@ -31,11 +31,11 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 	@Override
 	public boolean isValid(ClienteDTO objdto, ConstraintValidatorContext context) {
 		
+		@SuppressWarnings("unchecked")
 		Map<String,String> map = (Map<String,String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		Integer id=Integer.parseInt(map.get("id"));
 		
 		List<FieldMessage> list = new ArrayList<>();
-		
 
 		Cliente aux=repo.findByEmail(objdto.getEmail());
 		if(aux!=null && !aux.getId().equals(id)) {

@@ -3,8 +3,12 @@ package com.arielvieira.mc.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.arielvieira.mc.domain.Cliente;
 import com.arielvieira.mc.domain.ItemPedido;
 import com.arielvieira.mc.domain.PagamentoComBoleto;
 import com.arielvieira.mc.domain.Pedido;
@@ -14,6 +18,8 @@ import com.arielvieira.mc.repositories.ItemPedidoRepository;
 import com.arielvieira.mc.repositories.PagamentoRepository;
 import com.arielvieira.mc.repositories.PedidoRepository;
 import com.arielvieira.mc.repositories.ProdutoRepository;
+import com.arielvieira.mc.security.UserSS;
+import com.arielvieira.mc.services.exceptions.AuthorizationException;
 import com.arielvieira.mc.services.exceptions.ObjetNotFoundException;
 
 @Service
@@ -65,4 +71,14 @@ public class PedidoService {
 		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+ 		UserSS user = UserService.authenticated();
+ 		if (user == null) {
+ 			throw new AuthorizationException("Acesso negado");
+ 		}
+ 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+ 		Cliente cliente =  clienteRepository.findOne(user.getId());
+ 		return repo.findByCliente(cliente, pageRequest);
+ 	}
 }

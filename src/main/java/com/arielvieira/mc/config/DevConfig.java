@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.arielvieira.mc.services.DBService;
+import com.arielvieira.mc.services.EmailService;
+import com.arielvieira.mc.services.SmtpEmailService;
+
 
 @Configuration
 @Profile("dev")
@@ -19,6 +22,7 @@ public class DevConfig {
 	
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
+	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		
@@ -29,4 +33,9 @@ public class DevConfig {
 		dbService.instantiateTestDatabase();
 		return true;
 	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
+	};
 }
